@@ -1,29 +1,37 @@
 # Scope and boundaries
 
-## Authorized scope
+This repository is for building and validating a local defensive cyber gateway: a policy-controlled layer between an LLM, its tools, and the operator's lab environment.
 
-Testing is limited to:
+The working doctrine is:
 
-- Local MCP gateway code owned by the operator
-- Local lab systems owned by the operator
-- Synthetic logs and synthetic test cases
-- Explicitly authorized systems and repositories
-- Defensive validation of permissions, logging, containment, and remediation
+> Defensively motivated, offensively aware in testing, morally constrained by authorization, containment, and auditability.
 
-## Out of scope
+## Authorized working scope
 
-This repository must not be used for:
+Work in this repository should stay inside environments that are owned by the operator or explicitly authorized for testing. The first target environment is a local MCP gateway and its supporting files, logs, tools, and synthetic validation cases.
 
-- Unauthorized third-party systems
-- Credential theft
-- Phishing
-- Persistence
-- Evasion
-- Exfiltration
-- Destructive automation
-- Malware deployment
-- Real-world exploitation without explicit authorization
+Allowed work includes:
 
-## Safety rule
+- Designing MCP tool-permission policies
+- Testing prompt-injection resistance with synthetic prompts
+- Validating file, network, and shell access boundaries
+- Building audit-log schemas and tamper-evidence checks
+- Creating detection logic for policy bypass attempts
+- Writing remediation plans and validation reports
+- Using synthetic data instead of real secrets or third-party data
 
-All tests should be framed as validation of defensive controls, not operational abuse.
+## Operating constraints
+
+The gateway should assume the model can be manipulated. Safety cannot depend on the model choosing to behave correctly. Every tool call should be checked by policy before execution, every decision should be logged, and every permission should be narrow enough to explain and review.
+
+The project should not contain live exploit chains, credential theft workflows, persistence mechanisms, stealth/evasion logic, destructive automation, or instructions for acting against systems without authorization. When adversarial cases are needed, they should be synthetic and used to test whether the gateway denies, contains, logs, or redirects the request.
+
+## Design standard
+
+A successful control is not just a refusal. A successful control should:
+
+1. identify the risky request,
+2. prevent unsafe execution,
+3. preserve useful defensive context,
+4. write an audit event, and
+5. point to a concrete remediation step.
