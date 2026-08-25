@@ -1,0 +1,115 @@
+account:
+  starting_equity: 100000
+  hard_floor: 30000
+  max_drawdown: 0.70
+
+sleeves:
+  wsb:
+    allocation: 0.25
+    enabled: true
+  pelosi:
+    allocation: 0.25
+    enabled: true
+  inverse_cramer:
+    allocation: 0.50
+    enabled: true
+
+options:
+  min_dte: 3
+  max_dte: 45
+  preferred_delta_min: 0.10
+  preferred_delta_max: 0.40
+  absurd_delta_min: 0.05
+  absurd_delta_max: 0.15
+  prefer_otm: true
+  max_premium_percent: 0.10  # Max premium as % of underlying
+
+strategy:
+  consensus:
+    one_source: 1.0
+    two_sources: 1.5
+    three_sources: 2.0
+  
+  signal_thresholds:
+    minimum: 0.75
+    extreme: 0.90
+    
+  sizing:
+    low: 0.05
+    normal: 0.10
+    high: 0.20
+    extreme: 0.30
+
+  contract_tiers:
+    tier1:
+      delta_min: 0.30
+      delta_max: 0.40
+      dte_min: 14
+      dte_max: 45
+      weight: 0.30
+    tier2:
+      delta_min: 0.15
+      delta_max: 0.30
+      dte_min: 7
+      dte_max: 21
+      weight: 0.50
+    tier3:
+      delta_min: 0.05
+      delta_max: 0.15
+      dte_min: 3
+      dte_max: 14
+      weight: 0.20
+
+  desperation:
+    enabled: true
+    drawdown_0_20: 1.0
+    drawdown_20_40: 1.25
+    drawdown_40_55: 1.50
+    drawdown_55_65: 1.75
+    drawdown_65_70: 2.0
+    last_chance_min_multiple: 5.0
+
+execution:
+  paper_only: true
+  max_order_size: 50000
+  max_position_size: 100000
+  
+logging:
+  level: INFO
+  file: data/degenerate.log
+  db_path: data/trades.db
+
+market:
+  open_time: "09:30"
+  close_time: "16:00"
+  timezone: "America/New_York"
+  
+signal_sources:
+  wsb:
+    subreddit: "wallstreetbets"
+    lookback_minutes: 60
+    acceleration_window: 15
+    meme_terms:
+      - "YOLO"
+      - "calls"
+      - "squeeze"
+      - "moon"
+      - "fuck it"
+      - "all in"
+      - "10 bagger"
+      - "short squeeze"
+      - "tendies"
+      - "diamond hands"
+      - "to the moon"
+      - "rocket"
+      - "GME"
+      - "AMC"
+  
+  pelosi:
+    api_url: "https://disclosures.clerk.house.gov"
+    lookback_days: 30
+    
+  cramer:
+    enabled: true
+    classification_model: "gpt-4o-mini"
+    confidence_threshold: 0.85
